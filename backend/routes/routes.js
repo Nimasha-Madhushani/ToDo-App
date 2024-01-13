@@ -1,17 +1,29 @@
-const express = require('express');
-const todoService = require('../services/todoService');
+const express = require("express");
+const todoService = require("../services/todoService");
+const TodoModel = require("../models/model");
 
 const router = express.Router();
 
-router.post('/add', async (req, res) => {
+router.post("/add", async (req, res) => {
   const task = req.body.task;
 
   try {
     const result = await todoService.createTodo(task);
     res.json(result);
   } catch (err) {
-    console.error('Error handling request:', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error handling request:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/get", async (req, res) => {
+  try {
+    const result = await todoService.getTodo();
+    res.json(result)
+  } catch (err) {
+
+    console.error("Error handling request:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
