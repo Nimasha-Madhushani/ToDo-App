@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import Create from "./Create";
+import Create from "../Create";
 import { useState } from "react";
 import axios from "axios";
 import { Grid, Checkbox } from "@mui/material";
-
+import "./Home.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
+
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -28,6 +28,24 @@ function Home() {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const handleEdit =async (id) => {
+   await axios
+      .put("http://localhost:3001/update/" + id)
+      .then((result) => {
+        window.location.reload(true);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDelete = (id) => {
+    axios
+      .delete("http://localhost:3001/delete/" + id)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div>
       <h2>ToDo List</h2>
@@ -47,17 +65,28 @@ function Home() {
                       <Grid container spacing={1}>
                         <Grid item xs>
                           <Item>
-                            <Checkbox />
+                            <div onClick={() => handleEdit(todo._id)}>
+                              {todo.done ? (
+                                <Checkbox defaultChecked />
+                              ) : (
+                                <Checkbox />
+                              )}
+                            </div>
                           </Item>
                         </Grid>
                         <Grid item xs={9}>
                           <Item>
-                            <p>{todo.task}</p>
+                            <p className={todo.done ? "line_through" : ""}>
+                              {todo.task}
+                            </p>
                           </Item>
                         </Grid>
                         <Grid item xs>
                           <Item>
-                            <button className="delete-button">
+                            <button
+                              className="delete-button"
+                              onClick={() => handleDelete(todo._id)}
+                            >
                               <DeleteIcon />
                             </button>
                           </Item>

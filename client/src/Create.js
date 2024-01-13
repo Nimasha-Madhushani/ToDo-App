@@ -5,7 +5,7 @@ function Create() {
   const handleAdd = () => {
     axios
       .post("http://localhost:3001/add", { task: task }) // Send task in the request body
-      .then((result) => console.log(result))
+      .then((result) => window.location.reload())
       .catch((err) => console.log(err));
   };
 

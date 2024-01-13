@@ -14,7 +14,31 @@ const getTodo = async () => {
   try {
     const result = await TodoModel.find();
     return result;
-  } catch (error) {
+  } catch (err) {
+    console.error("Error retrieving from database:", err);
+  }
+};
+
+const updateTodo = async (id) => {
+  try {
+    const result = await TodoModel.findByIdAndUpdate(
+      { _id: id },
+      { done: true }
+    );
+    return result;
+  } catch (err) {
+    console.error("Error retrieving from database:", err);
+  }
+};
+
+const deleteTodo = async (id) => {
+  try {
+    const result = await TodoModel.findByIdAndDelete(
+      { _id: id },
+      { done: true }
+    );
+    return result;
+  } catch (err) {
     console.error("Error retrieving from database:", err);
   }
 };
@@ -22,4 +46,6 @@ const getTodo = async () => {
 module.exports = {
   createTodo,
   getTodo,
+  updateTodo,
+  deleteTodo,
 };
