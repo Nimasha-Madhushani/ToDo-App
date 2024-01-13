@@ -19,12 +19,32 @@ router.post("/add", async (req, res) => {
 router.get("/get", async (req, res) => {
   try {
     const result = await todoService.getTodo();
-    res.json(result)
+    res.json(result);
   } catch (err) {
-
     console.error("Error handling request:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
+router.put("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await todoService.updateTodo(id);
+    res.json(result);
+  } catch (err) {
+    console.error("Error handling request:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await todoService.deleteTodo(id);
+    res.json(result);
+  } catch (err) {
+    console.error("Error handling request:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 module.exports = router;
