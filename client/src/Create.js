@@ -8,7 +8,7 @@ function Create() {
       .then((result) => console.log(result))
       .catch((err) => console.log(err));
   };
-  
+
   return (
     <div className="create_form">
       <input

@@ -2,7 +2,21 @@ import React, { useEffect } from "react";
 import Create from "./Create";
 import { useState } from "react";
 import axios from "axios";
+import { Grid, Checkbox } from "@mui/material";
 
+import DeleteIcon from "@mui/icons-material/Delete";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+const Item = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(0.5),
+  background: "lightblue",
+  textAlign: "left",
+  marginBottom: "10px",
+  color: theme.palette.text.secondary,
+}));
 function Home() {
   const [todos, setTodos] = useState([]);
 
@@ -18,13 +32,48 @@ function Home() {
     <div>
       <h2>ToDo List</h2>
       <Create />
-      {todos.length === 0 ? (
-        <div>
-          <h2>No Record</h2>
-        </div>
-      ) : (
-        todos.map((todo) => <div>{todo.task}</div>)
-      )}
+      <Box padding={10}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid item xs={6}>
+            <Item>
+              {todos.length === 0 ? (
+                <div>
+                  <h2>No Record</h2>
+                </div>
+              ) : (
+                <div>
+                  {todos.map((todo) => (
+                    <div className="todo._id">
+                      <Grid container spacing={1}>
+                        <Grid item xs>
+                          <Item>
+                            <Checkbox />
+                          </Item>
+                        </Grid>
+                        <Grid item xs={9}>
+                          <Item>
+                            <p>{todo.task}</p>
+                          </Item>
+                        </Grid>
+                        <Grid item xs>
+                          <Item>
+                            <button className="delete-button">
+                              <DeleteIcon />
+                            </button>
+                          </Item>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Item>
+          </Grid>
+          <Grid item xs={6}>
+            <Item>2</Item>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 }
