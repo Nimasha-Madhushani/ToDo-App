@@ -1,18 +1,18 @@
-// routes.js
 const express = require('express');
-const TodoModel = require('../models/model');
+const todoService = require('../services/todoService');
 
 const router = express.Router();
 
-router.post('/add', (req, res) => {
+router.post('/add', async (req, res) => {
   const task = req.body.task;
 
-  TodoModel.create({ task: task })
-    .then((result) => res.json(result))
-    .catch((err) => {
-      console.error('Error saving to database:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    });
+  try {
+    const result = await todoService.createTodo(task);
+    res.json(result);
+  } catch (err) {
+    console.error('Error handling request:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 module.exports = router;
